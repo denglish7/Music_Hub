@@ -1,0 +1,45 @@
+@model BBApp.Models.Song
+@{
+    ViewData["Title"] = "Songs";
+}
+
+<div class="wrapper">
+    <a href="logoff">Log Out</a>
+    <h2>Hello @ViewBag.user.first_name @ViewBag.user.last_name!</h2>
+
+    <h3>All the songs in our hub</h3>
+    <table> 
+        <tr>
+            <th>Artist</th>
+            <th>Title</th>
+            <th>No. of Times Song Has Been Added</th>
+            <th>Add to Playlist</th>
+        </tr>
+        @{
+            
+            if(@ViewBag.allSongs != null)
+            {                
+                foreach(var song in @ViewBag.allSongs)
+                {
+                    <tr>
+                        <td>@song.artist</td>
+                        <td><a href="/songPage/@song.id">@song.title</a></td>
+                        <td>@song.times_added</td>
+                        <td><a href="/addToPlaylist/@song.id">Add</a></td>
+                    </tr>
+                    
+                }
+            }
+        }
+    </table>
+    <h3>Add a Song</h3>
+    <form asp-controller="Home" asp-action="addSong" method="POST">
+        <div asp-validation-summary="All"></div>
+        <label asp-for="title">Title</label>
+        <input asp-for="title"></input>
+        <label asp-for="artist">Artist</label>
+        <input asp-for="artist"></input>
+        <button type="submit">Add Song</button>
+    </form>
+</div>
+

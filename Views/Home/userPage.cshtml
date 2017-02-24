@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Songs";
+}
+
+<div class="wrapper">
+    <a href="/logoff">Log Out</a>
+    <a href="/">Dashboard</a>
+    <h3>@ViewBag.userInfo.first_name @ViewBag.userInfo.last_name's Playlist</h3>
+    <table> 
+        <tr>
+            <th>Artist</th>
+            <th>Title</th>
+            <th>Times Added</th>
+        </tr>
+         @{           
+            foreach(var song in @ViewBag.allUserSongs)
+            { 
+                <tr>
+                    <td>@song.artist</td>
+                    <td>@song.title</td>
+                    <td>@song.times_added</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+

@@ -1,0 +1,56 @@
+@model BBApp.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+ 
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+        <title>Login</title>
+    </head>
+    <body>
+        <h1>Registration</h1>
+        <form asp-controller="Home" asp-action="Register" method="POST">
+            <div asp-validation-summary="All"></div>
+            <label asp-for="first_name">First Name</label>
+            <input asp-for="first_name"></input>
+            <label asp-for="last_name">Last Name</label>
+            <input asp-for="last_name"></input>
+            <label asp-for="email">Email</label>
+            <input asp-for="email"></input>
+            <label asp-for="password">Password</label>
+            <input type="password" asp-for="password"></input>
+            <label asp-for="confirm_password">Confirm Password</label>
+            <input type="password" asp-for="confirm_password"></input>
+            <button type="submit">Register</button>
+        </form>
+        <div>
+            @{
+                if(@ViewBag.regSuccess != null)
+                {
+                    <p>@ViewBag.regSuccess</p>
+                }
+                if(@ViewBag.usernameExists != null)
+                {
+                    <p>@ViewBag.usernameExists</p>
+                }
+            }
+        </div>
+        
+        <h1>Login</h1>
+        <form asp-controller="Home" asp-action="LoginMethod" method="POST">
+            Email<input name="loginEmail">
+            Password<input type="password" name="PasswordToCheck">
+            <button type="submit">Log In</button>
+        </form>
+            @{
+                if(@ViewBag.invalid != null)
+                {
+                    <p>@ViewBag.invalid</p>
+                }
+            }
+    </body>
+</html>
+
+

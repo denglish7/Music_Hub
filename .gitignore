@@ -1,0 +1,6 @@
+bin/
+obj/
+.bowerrc
+.vscode/
+MySQL/
+appsettings.json
