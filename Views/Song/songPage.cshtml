@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Songs";
+}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="~/css/song.css">
+    </head>
+    <div class="wrapper">
+        <a href="/logoff" class="btn btn-default">Log Out</a>
+        <a href="/" class="btn btn-default">Dashboard</a>
+        <h1>People who added @ViewBag.thisSong.title by @ViewBag.thisSong.artist</h1>
+        @if(@ViewBag.thisSong.added == false)
+        {
+            <h2><a class="btn btn-default" href="/addToPlaylistFromSong/@ViewBag.thisSong.id">Add to my playlist</a></h2>
+        }
+        else
+        {
+            <h2>You have added this song!</h2>
+        }
+        <h3>Youtube link: <a href="@ViewBag.thisSong.youtube">@ViewBag.thisSong.youtube</a></h3>
+        @if(@ViewBag.allUsers.Count == 0)
+        {
+            <h3>No one has added this song yet</h3>
+        }
+        else
+        {
+            <table class="table table-sm song"> 
+                <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                
+                    @foreach(var j in @ViewBag.allUsers)
+                    {
+                        <tr>
+                            <td> @j.User.first_name @j.User.last_name</td>
+                            <td><a class="btn btn-primary btn-xl" href="/userPage/@j.UserId">View this person's playlist</a></td>
+                        </tr>
+                    }
+                
+            </table>
+        }
+            
+    </div>
+</html> 
+

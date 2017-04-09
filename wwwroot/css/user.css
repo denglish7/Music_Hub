@@ -1,0 +1,45 @@
+/*Write all of your CSS here*/
+
+html {
+    height: 100%;
+    margin: 0px auto;
+    padding: 0px auto;
+}
+
+body {
+    height: auto;
+    min-height: 100%;
+    margin: 0px auto;
+    padding: 0px auto;
+    padding-top: 50px;
+    padding-left: 20px;
+    background-image: url("../images/audio-1840195_1280.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+label {
+	display: inline-block;
+    width: 200px;
+}
+input {
+    display: inline-block;
+    width: 200px;
+}
+h1, h2, h3, label, a {
+    color: white;
+}
+
+li {
+    color: red;
+    list-style: none;
+}
+table {
+    width: 50%;
+    font-size: 16px;
+}
+
+th, td {
+    color: white;
+
+}
+

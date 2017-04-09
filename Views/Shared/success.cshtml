@@ -2,44 +2,69 @@
 @{
     ViewData["Title"] = "Songs";
 }
-
-<div class="wrapper">
-    <a href="logoff">Log Out</a>
-    <h2>Hello @ViewBag.user.first_name @ViewBag.user.last_name!</h2>
-
-    <h3>All the songs in our hub</h3>
-    <table> 
-        <tr>
-            <th>Artist</th>
-            <th>Title</th>
-            <th>No. of Times Song Has Been Added</th>
-            <th>Add to Playlist</th>
-        </tr>
-        @{
+<html>
+    <head>
+    <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="./css/dash.css">
+    </head>
+    <div class="wrapper">
+        <a href="/logoff" class="btn btn-default">Log Out</a>
+        <h1>Hello @ViewBag.user.first_name @ViewBag.user.last_name!</h1>
+        <a class="btn btn-primary btn-xl page-scroll" href="/userPage/@ViewBag.user.Id">View my playlist</a>
+        <div class="addBox panel panel-default">
+            <h3>Add a Song</h3>
+            <form asp-controller="Song" asp-action="addSong" method="POST">
+                <div asp-validation-summary="All"></div>
+                <p><label asp-for="title">Title</label>
+                <input asp-for="title"></input></p>
+                <p><label asp-for="artist">Artist</label>
+                <input asp-for="artist"></input></p>
+                <p><label asp-for="youtube">Youtube Link</label>
+                <input asp-for="youtube"></input></p>
+                <button type="submit" class="btn btn-default">Add Song</button>
+            </form>
+        </div>
             
-            if(@ViewBag.allSongs != null)
-            {                
-                foreach(var song in @ViewBag.allSongs)
+        <h3>All the songs in our hub</h3>
+        <table class="table table-sm"> 
+            <tr>
+                <th>Actions</th>
+                <th>Artist</th>
+                <th>Title</th>
+                <th>No. of Times Song Has Been Added</th>
+                <th>Youtube Link</th>
+                <th>Add to Playlist</th>
+            </tr>
+            @{
+                
+                if(@ViewBag.allSongs != null)
                 {
-                    <tr>
-                        <td>@song.artist</td>
-                        <td><a href="/songPage/@song.id">@song.title</a></td>
-                        <td>@song.times_added</td>
-                        <td><a href="/addToPlaylist/@song.id">Add</a></td>
-                    </tr>
-                    
+                    foreach(var song in @ViewBag.allSongs)
+                    {
+                        <tr>
+                            <td><a class="btn btn-primary btn-xl" href="/songPage/@song.id">View Song</a></td>
+                            <td>@song.artist</td>
+                            <td>@song.title</td>
+                            <td>@song.Joins.Count</td>
+                            <td><a href="@song.youtube">@song.youtube</a></td>
+                            @if(@song.added == false)
+                            {
+                                <td><a class="btn btn-primary btn-xl" href="/addToPlaylist/@song.id">Add</a></td>
+                            }
+                            else
+                            {
+                                <td>You have added this song!</td>
+                            }
+                            
+                            
+                            
+                        </tr>
+
+                    }
                 }
             }
-        }
-    </table>
-    <h3>Add a Song</h3>
-    <form asp-controller="Home" asp-action="addSong" method="POST">
-        <div asp-validation-summary="All"></div>
-        <label asp-for="title">Title</label>
-        <input asp-for="title"></input>
-        <label asp-for="artist">Artist</label>
-        <input asp-for="artist"></input>
-        <button type="submit">Add Song</button>
-    </form>
-</div>
-
+        </table>
+        
+    </div>
+</html>

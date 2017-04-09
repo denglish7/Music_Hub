@@ -1,0 +1,60 @@
+@model BBApp.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+ 
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="./css/login.css">
+    </head>
+    <body>
+        <h1>Welcome to Northwest Vibes!</h1>
+        <h2>Registration</h2>
+        <form asp-controller="Home" asp-action="Register" method="POST">
+            <div asp-validation-summary="All"></div>
+            <p><label asp-for="first_name">First Name</label>
+            <input asp-for="first_name"></input></p>
+            <p><label asp-for="last_name">Last Name</label>
+            <input asp-for="last_name"></input></p>
+            <p><label asp-for="email">Email</label>
+            <input asp-for="email"></input></p>
+            <p><label asp-for="password">Password</label>
+            <input type="password" asp-for="password"></input></p>
+            <p><label asp-for="confirm_password">Confirm Password</label>
+            <input type="password" asp-for="confirm_password"></input></p>
+            <button type="submit" class="btn btn-default">Register</button>
+        </form>
+        <div>
+            @{
+                if(@ViewBag.regSuccess != null)
+                {
+                    <p class="message">@ViewBag.regSuccess</p>
+                }
+                if(@ViewBag.usernameExists != null)
+                {
+                    <p class="message">@ViewBag.usernameExists</p>
+                }
+            }
+        </div>
+        
+        <h2>Login</h2>
+        <form asp-controller="Home" asp-action="LoginMethod" method="POST">
+            <p><label>Email</label>
+            <input name="loginEmail"></p>
+            <p><label>Password</label>
+            <input type="password" name="PasswordToCheck"></p>
+            <button type="submit" class="btn btn-default">Log In</button>
+        </form>
+            @{
+                if(@ViewBag.invalid != null)
+                {
+                    <p class="message">@ViewBag.invalid</p>
+                }
+            }
+    </body>
+</html>
+
+

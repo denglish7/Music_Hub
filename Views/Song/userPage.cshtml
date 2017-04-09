@@ -1,0 +1,64 @@
+@{
+    ViewData["Title"] = "Songs";
+}
+<html>  
+    <head>
+    <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="~/css/user.css">
+    </head>
+    <div class="wrapper">
+        <a href="/logoff" class="btn btn-default">Log Out</a>
+        <a href="/" class="btn btn-default">Dashboard</a>
+        @if(@ViewBag.userInfo == @ViewBag.loggedUser)
+        {
+            <h2>My Playlist</h2>
+        }
+        else
+        {
+            <h2>@ViewBag.userInfo.first_name @ViewBag.userInfo.last_name's Playlist</h2>
+        }
+        
+        @if(@ViewBag.playlist.Count == 0)
+        {
+            <h3>You don't have any songs on your playlist.</h3>
+        }
+        else
+        {
+            <table class="table table-sm user"> 
+            <tr>
+                <th>Artist</th>
+                <th>Title</th>
+                <th>Youtube Link</th>
+                <th>Actions</th>
+            </tr>
+            @{           
+                foreach(var join in @ViewBag.playlist)
+                { 
+                    <tr>
+                        <td>@join.song.artist</td>
+                        <td>@join.song.title</td>
+                        <td><a href="@join.song.youtube">@join.song.youtube</a></td>
+                        @if(@ViewBag.userInfo == @ViewBag.loggedUser)
+                        {
+                            <td><a class="btn btn-primary btn-xl" href="/removeFromPlaylist/@join.JoinId">Remove</a> <a class="btn btn-primary btn-xl" href="/songPage/@join.song.id">View song</a></td>
+                        }
+                        else if(@join.song.added == false)
+                        {
+                            <td><a class="btn btn-primary btn-xl" href="/songPage/@join.song.id">View song</a></td>
+                        }
+                        else if(@join.song.added == true)
+                        {
+                            <td>You have added this song!</td>
+                        }
+                    </tr>
+                }
+            }
+        </table>
+        }
+    </div>
+</html>
+
+
+
+

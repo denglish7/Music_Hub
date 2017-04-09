@@ -49,7 +49,7 @@ namespace BBApp.Controllers
                 }
                 TempData["regSuccess"] = "You have been successfully registered.";
                 return RedirectToAction("Success");
-            }
+            } 
             return View("Index", model);
         }
     
@@ -111,67 +111,27 @@ namespace BBApp.Controllers
             {
                 ViewBag.userId = HttpContext.Session.GetInt32("user_id");
                 ViewBag.user = _context.users.SingleOrDefault(user => user.Id == (int)HttpContext.Session.GetInt32("user_id"));
-                ViewBag.allSongs = _context.songs.Include(song => song.Joins).ThenInclude(j => j.User).ToList();
+                ViewBag.allSongs = _context.songs.Include(song => song.Joins).ThenInclude(k => k.User).ToList().OrderByDescending(song => song.Joins.Count);
+                foreach(Song thisSong in ViewBag.allSongs)
+                {
+                    foreach(Join thisJoin in thisSong.Joins)
+                    {
+                        if(thisJoin.UserId == ViewBag.userId)
+                        {
+                            thisSong.added = true;
+                            break;
+                        }
+                        thisSong.added = false;
+                    }
+                }
                 return View("Success");
             }
         }     
-    
-
         [HttpGet]
         [Route("logoff")]
         public IActionResult Logoff()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Success");
-        }
-
-        [HttpGet]
-        [Route("songPage/{id}")]
-        public IActionResult songPage(int id)
-        {
-            ViewBag.songInfo = _context.songs.SingleOrDefault(i => i.id == id);
-            ViewBag.allUsers = _context.users.Include(p => p.Joins).ThenInclude(s => s.song).ToList();
-            return View("songPage");
-        }
-        [HttpPost]
-        [Route("addSong")]
-        public IActionResult addSong(Song model)
-        {
-            User user = _context.users.SingleOrDefault(User => User.Id == (int)HttpContext.Session.GetInt32("user_id"));
-            if(ModelState.IsValid)
-            {
-                model.created_at = DateTime.Now;
-                model.updated_at = DateTime.Now;
-                model.userid = (int)HttpContext.Session.GetInt32("user_id");
-                model.times_added = 1;
-                _context.songs.Add(model);
-                _context.SaveChanges();
-                return RedirectToAction("Success");
-            }
-            return View("Success", model);
-        }
-        [HttpGet]
-        [Route("userPage/{id}")]
-        public IActionResult userPage(int id)
-        {
-            ViewBag.userInfo = _context.users.SingleOrDefault(u => u.Id == id);
-            ViewBag.allUserSongs = _context.songs.Include(p => p.Joins).ThenInclude(s => s.User).ToList();
-            return View("userPage");
-        } 
-
-
-        [HttpGet]
-        [Route("addToPlaylist/{id}")]
-        public IActionResult addToPlaylist(int id)
-        {
-            Song mySong = _context.songs.SingleOrDefault(song => song.id == id); 
-            mySong.times_added +=1;
-            Join myJoin = new Join();
-            myJoin.SongId = id;
-            myJoin.UserId = (int)HttpContext.Session.GetInt32("user_id");
-            _context.Joins.Add(myJoin);
-            _context.SaveChanges();
-           
             return RedirectToAction("Success");
         }
     }
